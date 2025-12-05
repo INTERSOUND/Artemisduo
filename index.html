@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Programma del Concerto</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -54,8 +53,9 @@
       color: #555;
     }
 
+    /* PDF incorporato (solo desktop/tablet) */
     .pdf-wrapper {
-      margin-top: 8px;
+      margin-top: 10px;
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid #ddd;
@@ -68,8 +68,38 @@
       border: none;
     }
 
-    .actions {
+    /* Programma in HTML (visibile soprattutto su mobile) */
+    .programma-html {
+      display: none; /* nascosto di default, lo mostriamo su mobile */
       margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      padding: 12px;
+      background: #fafafa;
+      font-size: 0.95rem;
+    }
+
+    .programma-html h2 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .programma-html ul {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .programma-html li {
+      padding: 4px 0;
+      border-bottom: 1px dashed #ddd;
+    }
+
+    .programma-html li:last-child {
+      border-bottom: none;
+    }
+
+    .actions {
+      margin-top: 12px;
       display: flex;
       justify-content: flex-end;
     }
@@ -100,7 +130,7 @@
       text-align: center;
     }
 
-    /* 📱 Migliorie per il telefono */
+    /* 📱 Layout mobile */
     @media (max-width: 768px) {
       body {
         padding: 0;
@@ -113,8 +143,14 @@
         min-height: 100vh;
       }
 
+      /* Nascondo l'iframe perché si vede male */
       .pdf-wrapper {
-        height: calc(100vh - 150px); /* quasi tutto lo schermo per il PDF */
+        display: none;
+      }
+
+      /* Mostro il programma HTML subito, bello leggibile */
+      .programma-html {
+        display: block;
       }
 
       .actions {
@@ -131,19 +167,38 @@
   <div class="page">
     <header>
       <h1>Programma del Concerto</h1>
-      <p class="subtitle">PDF del programma visibile qui sotto. Puoi anche scaricarlo.</p>
+      <p class="subtitle">
+        Qui trovi il programma. Puoi anche scaricare il PDF completo.
+      </p>
     </header>
 
-    <!-- PDF SEMPRE VISIBILE -->
+    <!-- DESKTOP/TABLET: PDF incorporato -->
     <div class="pdf-wrapper">
-      <!-- 🔴 CAMBIA QUI IL NOME DEL PDF SE È DIVERSO -->
-      <!-- esempio: src="Concerto_10dicembre.pdf#zoom=page-width" -->
+      <!-- CAMBIA IL NOME QUI SE SERVE -->
       <iframe src="Programma.pdf"></iframe>
     </div>
 
-    <!-- BOTTONE SCARICA PDF -->
+    <!-- MOBILE: versione testuale del programma -->
+    <div class="programma-html">
+      <h2>Programma</h2>
+      <ul>
+        <li><strong>Brano 1</strong> – Autore 1</li>
+        <li><strong>Brano 2</strong> – Autore 2</li>
+        <li><strong>Brano 3</strong> – Autore 3</li>
+        <li><strong>Brano 4</strong> – Autore 4</li>
+      </ul>
+
+      <h2 style="margin-top: 10px;">Info</h2>
+      <p>
+        Data: 10 dicembre 2025<br>
+        Luogo: Teatro Esempio<br>
+        Inizio: ore 21.00
+      </p>
+    </div>
+
+    <!-- SEMPRE: bottone per scaricare il PDF -->
     <div class="actions">
-      <!-- 🔴 STESSO NOME ANCHE QUI -->
+      <!-- STESSO NOME PDF QUI -->
       <a class="btn"
          href="Programma.pdf"
          download="programma-concerto.pdf">
