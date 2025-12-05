@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Programma del Concerto</title>
 
-  <!-- Viewport per il mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -55,12 +54,12 @@
       color: #555;
     }
 
+    /* --- PDF DESKTOP --- */
     .pdf-wrapper {
       margin-top: 8px;
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid #ddd;
-      /* altezza responsiva: minimo 300px, massimo 900px, di base 75% dell'altezza viewport */
       height: clamp(300px, 75vh, 900px);
     }
 
@@ -76,7 +75,7 @@
       justify-content: flex-end;
     }
 
-    .download-btn {
+    .btn {
       border: none;
       outline: none;
       text-decoration: none;
@@ -87,9 +86,11 @@
       background: #111;
       color: #fff;
       cursor: pointer;
+      text-align: center;
+      display: inline-block;
     }
 
-    .download-btn:active {
+    .btn:active {
       transform: scale(0.98);
     }
 
@@ -100,19 +101,47 @@
       text-align: center;
     }
 
-    /* Mobile: bottone a tutta larghezza */
-    @media (max-width: 600px) {
+    /* --- BLOCCO MOBILE --- */
+    .mobile-note {
+      display: none;
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 8px;
+    }
+
+    .mobile-actions {
+      display: none;
+      margin-top: 8px;
+    }
+
+    /* Su schermi piccoli: niente iframe, solo link */
+    @media (max-width: 768px) {
+      body {
+        padding: 12px;
+      }
+
       .page {
         padding: 12px;
       }
 
-      .actions {
-        justify-content: stretch;
+      .pdf-wrapper {
+        display: none;
       }
 
-      .download-btn {
+      .actions {
+        display: none;
+      }
+
+      .mobile-note {
+        display: block;
+      }
+
+      .mobile-actions {
+        display: flex;
+      }
+
+      .mobile-actions .btn {
         width: 100%;
-        text-align: center;
       }
     }
   </style>
@@ -121,27 +150,38 @@
   <div class="page">
     <header>
       <h1>Programma del Concerto</h1>
-      <p class="subtitle">Visualizza il programma direttamente qui sotto oppure scaricalo in PDF.</p>
+      <p class="subtitle">Visualizza il programma oppure scarica il PDF.</p>
     </header>
 
-    <!-- VISUALIZZAZIONE PDF -->
+    <!-- DESKTOP: PDF incorporato -->
     <div class="pdf-wrapper">
-      <!-- 🔴 CAMBIA QUI IL NOME DEL PDF SE È DIVERSO -->
-      <iframe src="Pdf Artemis Duo Low.pdf"></iframe>
+      <!-- 🔴 SE IL PDF HA UN ALTRO NOME, CAMBIA QUESTO -->
+      <iframe src="programma-concerto.pdf"></iframe>
     </div>
 
-    <!-- BOTTONE DOWNLOAD -->
+    <!-- DESKTOP: bottone download -->
     <div class="actions">
-      <!-- 🔴 STESSO NOME DEL PDF ANCHE QUI -->
-      <a class="download-btn"
-         href="Pdf Artemis Duo Low.pdf"
-         download="Pdf Artemis Duo Low.pdf">
+      <a class="btn"
+         href="programma-concerto.pdf"
+         download="Programma.pdf">
         Scarica il PDF
       </a>
     </div>
 
+    <!-- MOBILE: messaggio + bottone a schermo intero -->
+    <p class="mobile-note">
+      Su telefono il PDF si apre meglio a schermo intero:
+    </p>
+    <div class="mobile-actions">
+      <a class="btn"
+         href="Programma.pdf"
+         target="_blank">
+        Apri il PDF
+      </a>
+    </div>
+
     <footer>
-      © <!-- puoi cambiare o togliere --> Programma del concerto
+      © Programma del concerto
     </footer>
   </div>
 </body>
