@@ -54,13 +54,12 @@
       color: #555;
     }
 
-    /* --- PDF DESKTOP --- */
     .pdf-wrapper {
       margin-top: 8px;
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid #ddd;
-      height: clamp(300px, 75vh, 900px);
+      height: clamp(350px, 80vh, 1000px);
     }
 
     .pdf-wrapper iframe {
@@ -70,7 +69,7 @@
     }
 
     .actions {
-      margin-top: 8px;
+      margin-top: 10px;
       display: flex;
       justify-content: flex-end;
     }
@@ -95,52 +94,34 @@
     }
 
     footer {
-      margin-top: 4px;
+      margin-top: 6px;
       font-size: 0.75rem;
       color: #777;
       text-align: center;
     }
 
-    /* --- BLOCCO MOBILE --- */
-    .mobile-note {
-      display: none;
-      font-size: 0.9rem;
-      color: #555;
-      margin-top: 8px;
-    }
-
-    .mobile-actions {
-      display: none;
-      margin-top: 8px;
-    }
-
-    /* Su schermi piccoli: niente iframe, solo link */
+    /* 📱 Migliorie per il telefono */
     @media (max-width: 768px) {
       body {
-        padding: 12px;
+        padding: 0;
       }
 
       .page {
         padding: 12px;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
       }
 
       .pdf-wrapper {
-        display: none;
+        height: calc(100vh - 150px); /* quasi tutto lo schermo per il PDF */
       }
 
       .actions {
-        display: none;
+        justify-content: center;
       }
 
-      .mobile-note {
-        display: block;
-      }
-
-      .mobile-actions {
-        display: flex;
-      }
-
-      .mobile-actions .btn {
+      .btn {
         width: 100%;
       }
     }
@@ -150,33 +131,23 @@
   <div class="page">
     <header>
       <h1>Programma del Concerto</h1>
-      <p class="subtitle">Visualizza il programma oppure scarica il PDF.</p>
+      <p class="subtitle">PDF del programma visibile qui sotto. Puoi anche scaricarlo.</p>
     </header>
 
-    <!-- DESKTOP: PDF incorporato -->
+    <!-- PDF SEMPRE VISIBILE -->
     <div class="pdf-wrapper">
-      <!-- 🔴 SE IL PDF HA UN ALTRO NOME, CAMBIA QUESTO -->
+      <!-- 🔴 CAMBIA QUI IL NOME DEL PDF SE È DIVERSO -->
+      <!-- esempio: src="Concerto_10dicembre.pdf#zoom=page-width" -->
       <iframe src="Programma.pdf"></iframe>
     </div>
 
-    <!-- DESKTOP: bottone download -->
+    <!-- BOTTONE SCARICA PDF -->
     <div class="actions">
+      <!-- 🔴 STESSO NOME ANCHE QUI -->
       <a class="btn"
          href="Programma.pdf"
-         download="Programma.pdf">
+         download="programma-concerto.pdf">
         Scarica il PDF
-      </a>
-    </div>
-
-    <!-- MOBILE: messaggio + bottone a schermo intero -->
-    <p class="mobile-note">
-      Su telefono il PDF si apre meglio a schermo intero:
-    </p>
-    <div class="mobile-actions">
-      <a class="btn"
-         href="Programma.pdf"
-         target="_blank">
-        Apri il PDF
       </a>
     </div>
 
