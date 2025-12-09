@@ -53,25 +53,25 @@
       color: #555;
     }
 
-    .pdf-wrapper {
+    .only-desktop {
+      /* Di default visibile */
       margin-top: 10px;
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid #ddd;
       height: clamp(350px, 80vh, 1000px);
-      display: none; /* di default nascosto, ci pensa JS a gestire */
     }
 
-    .pdf-wrapper iframe {
+    .only-desktop iframe {
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    .actions {
-      margin-top: 12px;
-      display: none; /* di default nascosto, ci pensa JS */
-      justify-content: center;
+    .only-mobile {
+      /* Di default nascosto */
+      display: none;
+      margin-top: 16px;
     }
 
     .btn {
@@ -88,7 +88,7 @@
       text-align: center;
       display: inline-block;
       width: 100%;
-      max-width: 300px;
+      max-width: 320px;
     }
 
     .btn:active {
@@ -101,6 +101,33 @@
       color: #777;
       text-align: center;
     }
+
+    /* 📱 REGOLE PER MOBILE */
+    @media (max-width: 768px) {
+      body {
+        padding: 0;
+      }
+
+      .page {
+        padding: 12px;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+      }
+
+      .only-desktop {
+        display: none;  /* NASCONDIAMO l’iframe su schermo piccolo */
+      }
+
+      .only-mobile {
+        display: block; /* MOSTRIAMO il bottone solo su mobile */
+        text-align: center;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -108,60 +135,31 @@
     <header>
       <h1>Programma del Concerto</h1>
       <p class="subtitle">
-        Da PC visualizzi il programma, da telefono puoi aprire/scaricare il PDF.
+        Da PC puoi visualizzare il programma, da telefono puoi aprire il PDF.
       </p>
     </header>
 
-    <!-- PC: PDF incorporato -->
-    <div class="pdf-wrapper">
+    <!-- SOLO DESKTOP / PC -->
+    <div class="only-desktop">
       <iframe src="Programma.pdf"></iframe>
     </div>
 
-    <!-- MOBILE: bottone scarica/apri -->
-    <div class="actions">
-      <a class="btn"
-         href="Programma.pdf">
+    <!-- SOLO MOBILE -->
+    <div class="only-mobile">
+      <p>Se sei da telefono, apri il PDF qui sotto:</p>
+      <a class="btn" href="Programma.pdf">
         Apri il PDF
       </a>
+      <!-- Se vuoi provare a forzare il download, puoi usare:
+      <a class="btn" href="Programma.pdf" download="programma-concerto.pdf">
+        Scarica il PDF
+      </a>
+      (ma su molti browser mobile l'attributo download viene ignorato) -->
     </div>
 
     <footer>
       © Programma del concerto
     </footer>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var pdfPath = 'Programma.pdf';
-
-      // Rileva se è un dispositivo mobile (user agent + dimensioni schermo)
-      var isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-        .test(navigator.userAgent);
-      var isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
-      var isMobile = isMobileUA || isSmallScreen;
-
-      var pdfWrapper = document.querySelector('.pdf-wrapper');
-      var actions = document.querySelector('.actions');
-      var downloadLink = document.querySelector('.actions a');
-
-      if (isMobile) {
-        // 📱 TELEFONO / TABLET: SOLO BOTTONE
-        if (pdfWrapper) pdfWrapper.style.display = 'none';
-        if (actions) actions.style.display = 'flex';
-
-        if (downloadLink) {
-          downloadLink.href = pdfPath;
-          // se vuoi provare a suggerire il download, puoi rimettere l'attributo:
-          // downloadLink.setAttribute('download', 'programma-concerto.pdf');
-        }
-      } else {
-        // 💻 PC: SOLO PDF EMBED
-        if (pdfWrapper) pdfWrapper.style.display = 'block';
-        if (actions) actions.style.display = 'none';
-
-        // Nessun link diretto al PDF qui
-      }
-    });
-  </script>
 </body>
 </html>
