@@ -69,7 +69,7 @@
 
     .actions {
       margin-top: 12px;
-      display: flex;
+      display: none; /* 🔴 di default NASCONDIAMO il bottone (PC) */
       justify-content: flex-end;
     }
 
@@ -112,12 +112,13 @@
       }
 
       .pdf-wrapper {
-        /* volendo potremmo nasconderlo,
-           ma tanto su mobile reindirizziamo al PDF */
+        /* Su mobile NON mostriamo l'iframe */
         display: none;
       }
 
       .actions {
+        /* 🔵 Su mobile MOSTRIAMO il bottone */
+        display: flex;
         justify-content: center;
       }
 
@@ -132,7 +133,7 @@
     <header>
       <h1>Programma del Concerto</h1>
       <p class="subtitle">
-        Visualizza il PDF qui sotto (da PC/tablet) oppure scaricalo.
+        Visualizza il programma.
       </p>
     </header>
 
@@ -142,7 +143,7 @@
       <iframe src="Programma.pdf"></iframe>
     </div>
 
-    <!-- TUTTI I DEVICE: bottone scarica -->
+    <!-- SOLO MOBILE: bottone scarica -->
     <div class="actions">
       <!-- 🔴 stesso nome del PDF anche qui -->
       <a class="btn"
@@ -157,27 +158,6 @@
     </footer>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // 🔧 imposta qui il nome/percorsa del tuo PDF
-      var pdfPath = 'Programma.pdf';
-
-      // Rileviamo se è un dispositivo mobile
-      var isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-        .test(navigator.userAgent);
-      var isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
-      var isMobile = isMobileUA || isSmallScreen;
-
-      // Per non creare un loop continuo, usiamo sessionStorage:
-      // reindirizziamo solo la prima volta in questa scheda.
-      var alreadyRedirected = sessionStorage.getItem('pdfRedirected');
-
-      if (isMobile && !alreadyRedirected) {
-        sessionStorage.setItem('pdfRedirected', '1');
-        // Reindirizza direttamente al PDF
-        window.location.href = pdfPath;
-      }
-    });
-  </script>
+  <!-- 🔴 Tolto completamente lo script di redirect -->
 </body>
 </html>
