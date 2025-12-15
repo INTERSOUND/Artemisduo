@@ -11,11 +11,7 @@
       color-scheme: light dark;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       min-height: 100vh;
@@ -32,26 +28,16 @@
       border-radius: 12px;
       padding: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      display: none; /* di default nascosta, la mostro SOLO da PC via JS */
+      display: none; /* la mostro SOLO da PC/tablet via JS */
       flex-direction: column;
       gap: 12px;
     }
 
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    header { display: flex; flex-direction: column; gap: 4px; }
 
-    h1 {
-      font-size: 1.4rem;
-      font-weight: 600;
-    }
+    h1 { font-size: 1.4rem; font-weight: 600; }
 
-    .subtitle {
-      font-size: 0.9rem;
-      color: #555;
-    }
+    .subtitle { font-size: 0.9rem; color: #555; }
 
     .pdf-wrapper {
       margin-top: 10px;
@@ -61,28 +47,15 @@
       height: clamp(350px, 80vh, 1000px);
     }
 
-    .pdf-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    footer {
-      margin-top: 6px;
-      font-size: 0.75rem;
-      color: #777;
-      text-align: center;
-    }
+    .pdf-wrapper iframe { width: 100%; height: 100%; border: none; }
   </style>
 </head>
+
 <body>
-  <!-- Questa pagina si vede SOLO da PC -->
   <div class="page">
     <header>
       <h1>Programma del Concerto</h1>
-      <p class="subtitle" style="text-align:center">
-        PROGRAMMA DEL CONCERTO
-      </p>
+      <p class="subtitle" style="text-align:center">PROGRAMMA DEL CONCERTO</p>
     </header>
 
     <div class="pdf-wrapper">
@@ -92,45 +65,27 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Percorsi dei file
       var pdfPath = 'Programma.pdf';
-      var zipPath = 'Programma.zip';
 
-      // Rileviamo mobile (user agent + dimensioni)
+      // Rileviamo se è un dispositivo mobile
       var isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
         .test(navigator.userAgent);
       var isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
       var isMobile = isMobileUA || isSmallScreen;
 
-      // Evitiamo loop di redirect continuo
-      var alreadyRedirected = sessionStorage.getItem('zipRedirected');
+      // Evita loop: reindirizza solo una volta per scheda
+      var alreadyRedirected = sessionStorage.getItem('pdfRedirected');
 
       if (isMobile && !alreadyRedirected) {
-        // 📱 TELEFONO: scarica/apri subito lo ZIP, schermata bianca
-        sessionStorage.setItem('zipRedirected', '1');
-
-        // Metodo 1: redirect diretto al .zip
-        window.location.href = zipPath;
-
-        // In alternativa si può tentare il click "download" via <a>, ma spesso basta il redirect:
-        /*
-        var a = document.createElement('a');
-        a.href = zipPath;
-        a.download = 'programma-concerto.zip';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        */
+        sessionStorage.setItem('pdfRedirected', '1');
+        // 📱 TELEFONO: apri/visualizza il PDF
+        window.location.href = pdfPath;
       } else if (!isMobile) {
-        // 💻 PC: mostro la pagina con l'iframe del PDF
+        // 💻 PC/tablet: mostra la pagina col PDF incorporato
         var page = document.querySelector('.page');
-        if (page) {
-          page.style.display = 'flex';
-        }
+        if (page) page.style.display = 'flex';
       } else {
-        // 📱 Mobile ma già reindirizzato: lascio schermo bianco come volevi
-        // volendo qui puoi mettere un messaggio minimal:
-        // document.body.innerHTML = '<p style="margin:auto">Se il download non è partito, <a href="' + zipPath + '">clicca qui</a>.</p>';
+        // 📱 Mobile già reindirizzato: niente (resta sul PDF)
       }
     });
   </script>
